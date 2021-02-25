@@ -46,7 +46,7 @@ app.put("/users",(request, response) => {
     };
     
 
-    if (password == users.password){
+    if (password == users[userIndex].password){
         users[userIndex] = user;
     
         return response.status(200).json({message: "Conta atualizada com sucesso!!!"});
@@ -79,16 +79,23 @@ app.delete("/users", (request, response) => {
     }
 
     
+<<<<<<< Updated upstream
     
 // GASDAS
+=======
+    const user = {id,password};
+
+    if (password == users[userIndex].password){
+        users[userIndex] = user;
+        users.splice(userIndex, 1);
+        return response.status(204).send();
+    }else{
+        return response.status(400).json({error: "Incorrect password"});}
+
+
+>>>>>>> Stashed changes
     
 });
-
-
-
-
-
-
 
 
 app.listen(8082, () => {
