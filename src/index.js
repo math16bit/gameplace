@@ -79,10 +79,6 @@ app.delete("/users", (request, response) => {
     }
 
     
-<<<<<<< Updated upstream
-    
-// GASDAS
-=======
     const user = {id,password};
 
     if (password == users[userIndex].password){
@@ -93,7 +89,6 @@ app.delete("/users", (request, response) => {
         return response.status(400).json({error: "Incorrect password"});}
 
 
->>>>>>> Stashed changes
     
 });
 
