@@ -1,10 +1,11 @@
 const express = require('express');
-
+var logger = require('morgan');
 
 const { v4: uuid} = require('uuid');
 
 const app = express();
 
+app.use(logger('dev'));
 app.use(express.json());
 
 
@@ -31,7 +32,7 @@ app.put("/users",(request, response) => {
     const userIndex = users.findIndex(user => user.id === id);
 
     if(userIndex === -1){
-        return response.status(404).json({error: "User not found"});
+        return response.status(404).json({message: "Usuário não encontrado"});
     }
 
     const user = {
@@ -48,10 +49,10 @@ app.put("/users",(request, response) => {
     if (password == users.password){
         users[userIndex] = user;
     
-        return response.json(user);
+        return response.status(200).json({message: "Conta atualizada com sucesso!!!"});
     }
     else{
-    return response.status(400).json({error: "Incorrect password"});}
+    return response.status(400).json({message:"Senha incorreta"});}
 
 });
 
@@ -62,19 +63,23 @@ app.delete("/users", (request, response) => {
     const userIndex = users.findIndex(user => user.id === id);
 
     if(userIndex < 0){
-        return response.status(404).json({error: "User not found"});
+        return response.status(404).json({error: "Usuário não encontrado"});
+    }else{
+        const user = {id,password};
+
+        if (password == users[userIndex].password){
+            users[userIndex] = user;
+            users.splice(userIndex, 1);
+            return response.status(200).json({message: "Conta excluída com sucesso!!!"});
+        }else{
+            return response.status(400).json({message: "Senha incorreta"});
+        }
+            
+    
     }
 
     
-    const user = {id,password};
-
-    if (password == users.password){
-        users[userIndex] = user;
-        users.splice(userIndex, 1);
-        return response.status(204).send();
-    }else
-        return response.status(400).json({error: "Incorrect password"});
-
+    
 
     
 });
